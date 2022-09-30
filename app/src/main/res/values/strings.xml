@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Clone Olx</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="logar">Logar</string>
+    <string name="cadastrese">Cadastre-se</string>
+    <string name="entrar">Entar</string>
 </resources>
