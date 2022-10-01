@@ -78,4 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onStart() {
+        autenticacao = ConfiguracaoFirebase.getFirebaseAuth();
+        if(autenticacao.getCurrentUser()!= null){
+            Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
+            startActivity(intent);
+        }
+        super.onStart();
+    }
 }

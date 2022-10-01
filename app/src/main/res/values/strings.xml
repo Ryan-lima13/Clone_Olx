@@ -5,4 +5,12 @@
     <string name="logar">Logar</string>
     <string name="cadastrese">Cadastre-se</string>
     <string name="entrar">Entar</string>
+    <string name="meus_anuncios">Meus Anúncios</string>
+    <string name="sair">Sair</string>
+    <string name="cadastrar">Cadastrar / Entrar</string>
+    <string name="titulo">Titulo</string>
+    <string name="valor">Valor</string>
+    <string name="descricao">Descrição</string>
+    <string name="telefone">Telefone</string>
+    <string name="cadastar_anuncios">Cadastrar Anúncios</string>
 </resources>
