@@ -43,22 +43,20 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinner_estados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/bg_edit_text"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spinner_categoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:background="@drawable/bg_edit_text"
             tools:ignore="SpeakableTextPresentCheck" />
 
     </LinearLayout>
