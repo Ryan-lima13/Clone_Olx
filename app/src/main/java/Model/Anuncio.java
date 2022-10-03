@@ -35,7 +35,7 @@ public class Anuncio {
     public  void salvarAnuncioPublico(){
 
         DatabaseReference anuncioRef = ConfiguracaoFirebase.getDatabaseReference()
-                .child("meus_anuncios");
+                .child("anuncios");
         anuncioRef.child(getEstado())
                 .child(getCategoria())
                 .child(getIdAnuncios())
