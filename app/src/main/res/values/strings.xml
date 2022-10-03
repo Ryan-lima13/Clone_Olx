@@ -12,6 +12,9 @@
     <string name="valor">Valor</string>
     <string name="descricao">Descrição</string>
     <string name="telefone">Telefone</string>
+    <string name="regiao">Região</string>
+    <string name="categoria">Categoria</string>
+    <string name="barra">|</string>
     <string name="cadastar_anuncios">Cadastrar Anúncios</string>
 
     <string-array name="estados">
