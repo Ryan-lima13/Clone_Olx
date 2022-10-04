@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +41,9 @@ public class TelaPrincipal extends AppCompatActivity {
     private List<Anuncio> listaAnuncios = new ArrayList<>();
     private DatabaseReference anunciosPublicosRef;
     private AlertDialog alertDialog;
+    private String filtroEstado = "";
+    private  String filtroCategoria = "";
+    private  boolean filtrandoPorEstado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,103 @@ public class TelaPrincipal extends AppCompatActivity {
         adapterAnuncios = new AdapterAnuncios(listaAnuncios,this);
         recyclerViewAnunciosPublicos.setAdapter(adapterAnuncios);
         recuperarAnunciosPublicos();
+
+        // filtrar por regiao
+        buttonRegiao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+               AlertDialog.Builder dialogEstado = new AlertDialog.Builder(TelaPrincipal.this);
+               dialogEstado.setTitle("Selecione o estado desejado");
+
+                // configurar spinner
+                View viewSpinner = getLayoutInflater().inflate(R.layout.dialog_spinner, null);
+                // configuar spinner estados
+                Spinner spinnerEstado = viewSpinner.findViewById(R.id.spinnerFiltro);
+
+                String[] estados = getResources().getStringArray(R.array.estados);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                        TelaPrincipal.this, android.R.layout.simple_spinner_item,
+                        estados
+
+                );
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerEstado.setAdapter(arrayAdapter);
+                dialogEstado.setView(viewSpinner);
+               dialogEstado.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+
+                       filtroEstado = spinnerEstado.getSelectedItem().toString();
+                       recuperarAnunciosPorEstado();
+                       filtrandoPorEstado = true;
+
+
+                   }
+               });
+               dialogEstado.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+
+                   }
+               });
+               AlertDialog dialog = dialogEstado.create();
+               dialog.show();
+
+
+            }
+        });
+
+        // filtro por categoria
+        buttonCategoria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(filtrandoPorEstado == true){
+                    AlertDialog.Builder dialogEstado = new AlertDialog.Builder(TelaPrincipal.this);
+                    dialogEstado.setTitle("Selecione a categoria desejado");
+
+                    // configurar spinner
+                    View viewSpinner = getLayoutInflater().inflate(R.layout.dialog_spinner, null);
+                    // configuar spinner categorias
+                    Spinner spinnerCategoria = viewSpinner.findViewById(R.id.spinnerFiltro);
+
+                    String[] categoria = getResources().getStringArray(R.array.categoria);
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                            TelaPrincipal.this, android.R.layout.simple_spinner_item,
+                            categoria
+
+                    );
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerCategoria.setAdapter(arrayAdapter);
+                    dialogEstado.setView(viewSpinner);
+                    dialogEstado.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            filtroCategoria =spinnerCategoria.getSelectedItem().toString();
+                            recuperarAnunciosPorCategoria();
+
+
+                        }
+                    });
+                    dialogEstado.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    AlertDialog dialog = dialogEstado.create();
+                    dialog.show();
+
+                }else {
+                    Toast.makeText(TelaPrincipal.this, "Escolha primeiro uma região", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
 
 
     }
@@ -117,6 +222,76 @@ public class TelaPrincipal extends AppCompatActivity {
             }
         });
 
+
+    }
+    public  void recuperarAnunciosPorEstado(){
+        // configurar nó por estado
+        alertDialog = new SpotsDialog.Builder().setContext(this)
+                .setMessage("recuperando Anúncios")
+                .setCancelable(false)
+                .build();
+        alertDialog.show();
+
+        anunciosPublicosRef = ConfiguracaoFirebase.getDatabaseReference().child("anuncios")
+                .child(filtroEstado);
+
+        anunciosPublicosRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaAnuncios.clear();
+                for (DataSnapshot categorias: snapshot.getChildren()){
+                    for (DataSnapshot anuncios:categorias.getChildren()){
+                        Anuncio anuncio = anuncios.getValue(Anuncio.class);
+                        listaAnuncios.add(anuncio);
+
+
+
+                    }
+                }
+                Collections.reverse(listaAnuncios);
+                adapterAnuncios.notifyDataSetChanged();
+                alertDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+    public  void recuperarAnunciosPorCategoria(){
+        // configurar nó por estado
+        alertDialog = new SpotsDialog.Builder().setContext(this)
+                .setMessage("recuperando Anúncios")
+                .setCancelable(false)
+                .build();
+        alertDialog.show();
+
+        anunciosPublicosRef = ConfiguracaoFirebase.getDatabaseReference().child("anuncios")
+                .child(filtroEstado)
+                .child(filtroCategoria);
+
+        anunciosPublicosRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaAnuncios.clear();
+                for (DataSnapshot anuncios:snapshot.getChildren()){
+                    Anuncio anuncio = anuncios.getValue(Anuncio.class);
+                    listaAnuncios.add(anuncio);
+
+                }
+                Collections.reverse(listaAnuncios);
+                adapterAnuncios.notifyDataSetChanged();
+                alertDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
