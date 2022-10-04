@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import Adpter.AdapterAnuncios;
 import Helper.ConfiguracaoFirebase;
+import Helper.RecyclerItemClickListener;
 import Model.Anuncio;
 import dmax.dialog.SpotsDialog;
 
@@ -55,6 +57,8 @@ public class TelaPrincipal extends AppCompatActivity {
         recyclerViewAnunciosPublicos.setHasFixedSize(true);
         adapterAnuncios = new AdapterAnuncios(listaAnuncios,this);
         recyclerViewAnunciosPublicos.setAdapter(adapterAnuncios);
+
+
         recuperarAnunciosPublicos();
 
         // filtrar por regiao

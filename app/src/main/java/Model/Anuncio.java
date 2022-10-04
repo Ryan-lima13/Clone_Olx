@@ -2,11 +2,12 @@ package Model;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
 import java.util.List;
 
 import Helper.ConfiguracaoFirebase;
 
-public class Anuncio {
+public class Anuncio implements Serializable {
     private String idAnuncios;
     private String estado;
     private  String categoria;

@@ -18,21 +18,21 @@
     <string name="cadastar_anuncios">Cadastrar Anúncios</string>
 
     <string-array name="estados">
-        <item >AC</item>
-        <item >AL</item>
-        <item >AM</item>
-        <item >BA</item>
-        <item >CE</item>
-        <item >DF</item>
-        <item >ES</item>
-        <item >GO</item>
-        <item >MG</item>
-        <item >MA</item>
-        <item >MS</item>
-        <item >MT</item>
-        <item >PA</item>
-        <item >SP</item>
-        <item >RJ</item>
+        <item>AC</item>
+        <item>AL</item>
+        <item>AM</item>
+        <item>BA</item>
+        <item>CE</item>
+        <item>DF</item>
+        <item>ES</item>
+        <item>GO</item>
+        <item>MG</item>
+        <item>MA</item>
+        <item>MS</item>
+        <item>MT</item>
+        <item>PA</item>
+        <item>SP</item>
+        <item>RJ</item>
 
     </string-array>
     <string-array name="categoria">
